@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    
+        <title>IFSC - WiFi Visitantes</title>
+  
+        <meta name="author" content="Diretoria de Tecnologia da Informação e Comuniação do IFSC: dtic.ifsc.edu.br">
+        <meta name="description" content="Portal de autenticação para rede sem fio de Visitantes do IFSC">
+  
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="stylesheet" type="text/css" media="all" href="bs-min.css">
+	<link rel="stylesheet" type="text/css" media="all" href="style.css">
+      
+  <link rel="stylesheet" type="text/css" media="all" href="bs-resp.css">
+
+<script>
+
+function submitAction(){
+      var link = document.location.href;
+      var searchString = "redirect=";
+      var equalIndex = link.indexOf(searchString);
+      var redirectUrl = "";
+
+      if (document.forms[0].action == "") {
+      var url = window.location.href;
+      var args = new Object();
+      var query = location.search.substring(1);
+      var pairs = query.split("&");
+          for(var i=0;i<pairs.length;i++){
+              var pos = pairs[i].indexOf('=');
+              if(pos == -1) continue;
+              var argname = pairs[i].substring(0,pos);
+              var value = pairs[i].substring(pos+1);
+              args[argname] = unescape(value);
+          }
+          document.forms[0].action = args.switch_url;       
+      }       
+      if(equalIndex >= 0) {
+            equalIndex += searchString.length;
+            redirectUrl = "";
+            redirectUrl += link.substring(equalIndex);
+      }
+      if(redirectUrl.length > 255)
+      redirectUrl = redirectUrl.substring(0,255);
+      document.forms[0].redirect_url.value = redirectUrl;
+      document.forms[0].buttonClicked.value = 4;
+      document.forms[0].submit();
+}
+
+function loadAction(){
+     var url = window.location.href;
+     var args = new Object();
+     var query = location.search.substring(1);
+     var pairs = query.split("&");
+     for(var i=0;i<pairs.length;i++){
+          var pos = pairs[i].indexOf('=');
+          if(pos == -1) continue;
+          var argname = pairs[i].substring(0,pos);
+          var value = pairs[i].substring(pos+1);
+          args[argname] = unescape(value);
+     }
+
+
+     document.forms[0].action = args.switch_url;
+
+     // This is the status code returned from webauth login action
+     // Any value of status code from 1 to 5 is error condition and user
+     // should be shown error as below or modify the message as it suits
+     // the customer
+
+     if(args.statusCode == 1){
+	alert("Você já está autenticado. Não há mais nada a ser feito.");
+     }
+     else if(args.statusCode == 2){
+        alert("Você não foi configurado para autenticar no portal web. Não há mais nada a ser feito.");
+     }
+     else if(args.statusCode == 3){
+        alert("O nome de usuário fornecido não pode ser usado neste momento, pois o usuário já pode estar em uso.");
+     }
+     else if(args.statusCode == 4){
+        alert("Nome de usuário ou senha não são válidos. Por favor, tente novamente.");
+     }
+     else if(args.statusCode == 5){
+        alert("Nome de usuário ou senha não são válidos. Por favor, tente novamente.");
+     }
+}
+</script>
+
+</head>
+
+<body onload="loadAction();">
+    
+    <div class="container">
+	
+	<section class="container-fluid">
+	    <div class="row-fluid">
+		<form name="ifsc" id="hongkiat-form" method="post" action="https://1.1.1.1/login.html" class="form-signin">
+			<input TYPE="hidden" NAME="buttonClicked" SIZE="16" MAXLENGTH="15" value="0">
+			<input TYPE="hidden" NAME="redirect_url" SIZE="255" MAXLENGTH="255" VALUE="">
+			<input TYPE="hidden" NAME="err_flag" SIZE="16" MAXLENGTH="15" value="0">
+			
+			<div id="logo">
+			      <img src="logo.png">
+			      <h3>Rede sem fio para visitantes</h3>
+			</div>
+			
+			<div id="wrapping">
+			      Usuário:<input type="text" name="username" id="name" placeholder="Informe o usuário" autocomplete="off" class="input-block-level">
+			      Senha:<input type="password" name="password" id="email" placeholder="Informe a senha" autocomplete="off" class="input-block-level">
+			      
+			</div>
+			
+			<div id="buttons" class="row-fluid">
+			      <div class="span9"
+				    <h5>Ao clicar no botão entrar, você afirma que leu e <a href="#regras">aceita as regras</a> para uso da rede do IFSC.</h5>
+			      </div>
+			    
+			      <input type="submit" name="submit" id="submitbtn" class="btn btn-large btn-success span3" value="Entrar" onclick="submitAction();">
+
+			</div>
+		</form>
+	    </div>
+	</section>
+	
+	<div class="regras">
+	    <a id="regras"></a><h2>Regras para uso da rede IFSC-VISITANTE</h2>
+		<ol>
+		    <li>Esta é uma rede <b>exclusiva para visitantes</b>. Solicite seu usuário e senha na recepção ou com o suporte técnico local. <br><b>Servidores</b> do IFSC devem usar a rede IFSC-ADM com suas credenciais da Intranet. <p><b>Alunos</b> do IFSC devem usar a rede IFSC-ALUNOS com suas credenciais do Portal do Aluno.</li>
+		    <li>O IFSC não presta suporte para configuração de equipamentos pessoais para fazer uso deste serviço;</li>
+		    <li>O IFSC não se responsabiliza por qualquer dano causado (<span lang="en">software<span> e <span lang="en">hardware</span>) nos equipamentos que fazem uso deste serviço;</li>
+		    <li>As credenciais de acesso (usuário e senha) são de uso individual e não devem ser compartilhadas com terceiros, sob pena de suspensão ou cancelamento;
+		    <li>O usuário não poderá fazer uso deste serviço para violar leis brasileiras, internacionais, de propriedade intelectual e as resoluções do IFSC;</li>
+		    <li>O usuário será responsabilizado por qualquer dano causado à rede do IFSC ou se violar leis brasileiras, internacionais, de propriedade intelectual e as resoluções do IFSC;</li>
+		    <li>Não é permitido fazer uso de programas e recursos que causem ou tentem causar a indisponibilidade de serviços de rede ou que prejudiquem de alguma forma as atividades de outros usuários;</li>
+		    <li>Não é permitido utilizar programas de compartilhamento de arquivos P2P (<span lang="en">Peer-to-peer</span>) tais como Kazaa, Bittorrent, Emule, etc. O objetivo desta restrição é otimizar o uso da rede;</li>
+		    <li>O IFSC se reserva o direito de monitorar o uso deste serviço e fornecer informações sobre seus usuários para as autoridades brasileiras.</li>
+		</ol>
+	</div>
+	
+    </div>
+</body>
+</html>
